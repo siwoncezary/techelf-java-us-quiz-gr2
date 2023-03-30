@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Builder
@@ -23,4 +24,8 @@ public class Quiz implements Serializable {
     private List<String> incorrectAnswers;
 
     private String correctAnswer;
+
+    public boolean isCorrectAnswer(String answer){
+        return Objects.equals(answer, correctAnswer);
+    }
 }
