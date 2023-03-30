@@ -45,6 +45,19 @@ public class QuizRepository {
     }
 
     public void removeById(long id) {
-        quizzes.remove(id);
+        if (quizzes.containsKey(id)) {
+            quizzes.remove(id);
+        } else {
+            throw new IllegalArgumentException("Key not found");
+        }
+    }
+
+    public Optional<Quiz> update(Quiz update){
+        if (quizzes.containsKey(update.getId())) {
+            quizzes.put(update.getId(), update);
+            return Optional.of(update);
+        } else {
+            return Optional.empty();
+        }
     }
 }
