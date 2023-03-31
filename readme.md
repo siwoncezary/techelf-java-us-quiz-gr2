@@ -2,7 +2,7 @@
 Data zajęć: od 30 - 31.03.2023
 
 1. [Przykład z JWT](https://github.com/siwoncezary/spring-jwt-example.git)
-2. [Prezentacja] ()
+2. [Prezentacja] (https://github.com/siwoncezary/techelf-java-us-quiz-gr2/blob/master/SPRING.pdf)
 3. Przykłady żądań w pliku requests.http
 
 ## Uwagi
