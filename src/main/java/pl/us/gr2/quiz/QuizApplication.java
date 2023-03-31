@@ -58,7 +58,7 @@ public class QuizApplication implements CommandLineRunner {
         if (userRepositoryJap.count() < 2) {
             userRepositoryJap.save(User
                     .builder()
-                    .email("karocl@op.pl")
+                    .email("karol@op.pl")
                     .roles("ADMIN")
                     .password(encoder.encode("1234"))
                     .build()

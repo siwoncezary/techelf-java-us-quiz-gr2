@@ -1,0 +1,67 @@
+### Ścieżka publiczna
+GET http://localhost:9000/api/v2/quizzes/
+
+### Ścieżka wymagająca autoryzacji
+GET http://localhost:9000/api/v1/quizzes
+Authorization: Basic ewa@op.pl abcd
+
+###
+PATCH http://localhost:9000/api/v1/quizzes/1
+Content-Type: application/merge-patch+json
+Authorization: Basic karol@op.pl 1234
+
+
+[{
+  "op": "remove",
+  "path": "/incorrectAnswers/0"
+}]
+
+###
+PATCH http://localhost:9000/api/v1/quizzes/1
+Content-Type: application/merge-patch+json
+Authorization: Basic karol@op.pl 1234
+
+[{
+  "op": "copy",
+  "from": "/incorrectAnswers/0",
+  "path": "/incorrectAnswers/-"
+}]
+
+###
+PATCH http://localhost:9000/api/v1/quizzes/1
+Content-Type: application/merge-patch+json
+Authorization: Basic karol@op.pl 1234
+
+[
+  {
+    "op": "add",
+    "path": "/incorrectAnswers/-",
+    "value": "9"
+  },
+  {
+    "op": "add",
+    "path": "/incorrectAnswers/-",
+    "value": "11"
+  }
+]
+
+###
+PATCH http://localhost:9000/api/v1/quizzes/1
+Content-Type: application/merge-patch+json
+Authorization: Basic karol@op.pl 1234
+
+[
+  {
+    "op": "test",
+    "path": "/correctAnswer",
+    "value": "5"
+  },
+  {
+    "op": "replace",
+    "path": "/correctAnswer",
+    "value": "55"
+  }
+]
+
+###
+
