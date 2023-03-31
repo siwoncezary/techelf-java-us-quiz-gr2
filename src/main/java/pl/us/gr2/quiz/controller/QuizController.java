@@ -1,9 +1,10 @@
 package pl.us.gr2.quiz.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import pl.us.gr2.quiz.dto.NewQuizDto;
@@ -11,10 +12,7 @@ import pl.us.gr2.quiz.model.Quiz;
 import pl.us.gr2.quiz.repository.QuizRepository;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -77,13 +75,11 @@ public class QuizController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, Object> handleException(MethodArgumentNotValidException e){
+    public Map<String, Object> handleException(MethodArgumentNotValidException ex) {
         Map<String, Object> errors = new HashMap<>();
-        for(var error: e.getDetailMessageArguments()){
-            if (error.toString().contains(":")) {
-                final String[] split = error.toString().split(":");
-                errors.put(split[0], split[1]);
-            }
+        for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
+            String defaultMessage = fieldError.getDefaultMessage();
+            errors.put(fieldError.getField(), defaultMessage);
         }
         return errors;
     }
