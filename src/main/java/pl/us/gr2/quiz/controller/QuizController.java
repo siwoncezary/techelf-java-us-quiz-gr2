@@ -10,6 +10,7 @@ import pl.us.gr2.quiz.repository.QuizRepository;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/api/v1/quizzes")
@@ -39,7 +40,7 @@ public class QuizController {
                 Quiz.builder()
                         .title(quiz.getTitle())
                         .question(quiz.getQuestion())
-                        .incorrectAnswers(quiz.getIncorrectAnswers())
+                        .incorrectAnswersAsString(String.join("|",quiz.getIncorrectAnswers()))
                         .correctAnswer(quiz.getCorrectAnswer())
                         .build()
         );

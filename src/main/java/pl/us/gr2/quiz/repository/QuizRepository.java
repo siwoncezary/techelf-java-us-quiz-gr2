@@ -14,7 +14,7 @@ public class QuizRepository {
                 .title("Dodawanie")
                 .question("2 + 3 = ?")
                 .correctAnswer("5")
-                .incorrectAnswers(List.of("4", "6", "7"))
+                .incorrectAnswersAsString("4|6|7")
                 .build();
         save(quiz);
         save(
@@ -22,7 +22,7 @@ public class QuizRepository {
                         .title("Odejmowanie")
                         .question("7 - 3 = ?")
                         .correctAnswer("4")
-                        .incorrectAnswers(List.of("5", "6", "7"))
+                        .incorrectAnswersAsString("5|6|7")
                         .build()
         );
     }
