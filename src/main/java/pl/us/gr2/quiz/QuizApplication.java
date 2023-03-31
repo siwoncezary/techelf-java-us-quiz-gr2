@@ -3,6 +3,7 @@ package pl.us.gr2.quiz;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.us.gr2.quiz.model.Quiz;
 import pl.us.gr2.quiz.model.User;
 import pl.us.gr2.quiz.repository.QuizRepositoryJpa;
@@ -13,9 +14,12 @@ public class QuizApplication implements CommandLineRunner {
     private final QuizRepositoryJpa quizRepositoryJpa;
     private final UserRepositoryJap userRepositoryJap;
 
-    public QuizApplication(QuizRepositoryJpa quizRepositoryJpa, UserRepositoryJap userRepositoryJap) {
+    private final PasswordEncoder encoder;
+
+    public QuizApplication(QuizRepositoryJpa quizRepositoryJpa, UserRepositoryJap userRepositoryJap, PasswordEncoder encoder) {
         this.quizRepositoryJpa = quizRepositoryJpa;
         this.userRepositoryJap = userRepositoryJap;
+        this.encoder = encoder;
     }
 
     public static void main(String[] args) {
@@ -25,7 +29,7 @@ public class QuizApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (quizRepositoryJpa.count() < 3){
+        if (quizRepositoryJpa.count() < 3) {
             quizRepositoryJpa.save(
                     Quiz.builder()
                             .title("Mnożenie")
@@ -51,16 +55,19 @@ public class QuizApplication implements CommandLineRunner {
                             .build()
             );
         }
-        if (userRepositoryJap.count() < 2){
+        if (userRepositoryJap.count() < 2) {
             userRepositoryJap.save(User
                     .builder()
-                            .email("karol@op.pl")
-                            .password("1234")
-                    .build());
+                    .email("karocl@op.pl")
+                    .roles("ADMIN")
+                    .password(encoder.encode("1234"))
+                    .build()
+            );
             userRepositoryJap.save(User
                     .builder()
                     .email("ewa@op.pl")
-                    .password("abcd")
+                    .roles("USER")
+                    .password(encoder.encode("abcd"))
                     .build());
         }
     }
