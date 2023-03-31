@@ -45,6 +45,6 @@ public class Quiz implements Serializable {
     }
 
     public List<String> getIncorrectAnswers(){
-        return Arrays.stream(incorrectAnswersAsString.split("\\|}")).toList();
+        return Arrays.stream(incorrectAnswersAsString.split("\\|")).toList();
     }
 }

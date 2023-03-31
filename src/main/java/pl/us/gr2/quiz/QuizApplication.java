@@ -4,14 +4,18 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import pl.us.gr2.quiz.model.Quiz;
+import pl.us.gr2.quiz.model.User;
 import pl.us.gr2.quiz.repository.QuizRepositoryJpa;
+import pl.us.gr2.quiz.repository.UserRepositoryJap;
 
 @SpringBootApplication
 public class QuizApplication implements CommandLineRunner {
     private final QuizRepositoryJpa quizRepositoryJpa;
+    private final UserRepositoryJap userRepositoryJap;
 
-    public QuizApplication(QuizRepositoryJpa quizRepositoryJpa) {
+    public QuizApplication(QuizRepositoryJpa quizRepositoryJpa, UserRepositoryJap userRepositoryJap) {
         this.quizRepositoryJpa = quizRepositoryJpa;
+        this.userRepositoryJap = userRepositoryJap;
     }
 
     public static void main(String[] args) {
@@ -46,6 +50,18 @@ public class QuizApplication implements CommandLineRunner {
                             .incorrectAnswersAsString("3|4|5")
                             .build()
             );
+        }
+        if (userRepositoryJap.count() < 2){
+            userRepositoryJap.save(User
+                    .builder()
+                            .email("karol@op.pl")
+                            .password("1234")
+                    .build());
+            userRepositoryJap.save(User
+                    .builder()
+                    .email("ewa@op.pl")
+                    .password("abcd")
+                    .build());
         }
     }
 }
