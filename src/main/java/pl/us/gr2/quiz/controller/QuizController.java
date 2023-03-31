@@ -55,7 +55,7 @@ public class QuizController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity deleteQuiz(@PathVariable long id){
+    public ResponseEntity<Object> deleteQuiz(@PathVariable long id){
         try {
             quizRepository.removeById(id);
             return ResponseEntity.noContent().build();
