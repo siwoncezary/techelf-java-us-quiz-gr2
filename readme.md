@@ -1,4 +1,4 @@
-# Projekt stworzony w trakcie warsztatow dla US - grupa 2 
+# Projekt stworzony w trakcie warsztatów dla US - grupa 2 
 Data zajęć: od 30 - 31.03.2023
 
 1. [Przykład z JWT](https://github.com/siwoncezary/spring-jwt-example.git)
