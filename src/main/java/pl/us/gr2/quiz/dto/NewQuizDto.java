@@ -23,6 +23,6 @@ public class NewQuizDto implements Serializable {
     @Size(min = 1, max = 6)
     private List<String> incorrectAnswers;
 
-    @NotEmpty
+    @NotEmpty(message = "Musisz podać odpowiedź!")
     private String correctAnswer;
 }

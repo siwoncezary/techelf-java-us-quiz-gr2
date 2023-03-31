@@ -1,6 +1,12 @@
 package pl.us.gr2.quiz.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
 import jakarta.validation.Valid;
+import org.springframework.data.web.JsonPath;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,6 +79,27 @@ public class QuizController {
         }
     }
 
+    @PatchMapping(path = "{id}", consumes = "application/merge-patch+json")
+    public ResponseEntity<Quiz> patchQuiz(@PathVariable long id, @RequestBody JsonPatch patched){
+        ObjectMapper mapper = new ObjectMapper();
+        final Optional<Quiz> optionalQuiz = quizRepository.findById(id);
+        if(optionalQuiz.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+        Quiz quiz = optionalQuiz.get();
+        final var node = mapper.convertValue(quiz, JsonNode.class);
+        try {
+            final JsonNode applied = patched.apply(node);
+            final Quiz patchedQuiz = mapper.treeToValue(applied, Quiz.class);
+            final Optional<Quiz> quizOptional = quizRepository.update(patchedQuiz);
+            return ResponseEntity.of(quizOptional);
+        } catch (JsonPatchException | JsonProcessingException e) {
+            System.out.println(e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, Object> handleException(MethodArgumentNotValidException ex) {
@@ -83,4 +110,6 @@ public class QuizController {
         }
         return errors;
     }
+
+
 }
